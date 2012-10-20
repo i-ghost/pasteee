@@ -47,7 +47,7 @@ class Paste(object):
 		File "<stdin>", line 1, in ?
 	PasteError: Invalid paste option: invalid_language
 	"""
-	def __new__(cls, paste, private=1, lang=u"plain", key=u"public", desc=u""):
+	def __new__(cls, paste, private=0, lang=u"plain", key=u"public", desc=u""):
 		if not paste:
 			raise PasteError(u"No paste provided")
 		request = urllib2.Request("http://paste.ee/api",

@@ -36,13 +36,13 @@ class Paste(object):
 	
 	Doctests:
 	>>> from pasteee import Paste
-	>>> paste = Paste(u"Foo bar\\nBaz")
+	>>> paste = Paste(u"Foo bar\\nBaz", private=1)
 	>>> print paste.keys()
 	[u'download', u'raw', u'link', u'id']
 	
 	Exception doctest:
 	>>> from pasteee import Paste
-	>>> paste = Paste(u"Foo bar\\nBaz", lang=123456789)
+	>>> paste = Paste(u"Foo bar\\nBaz", lang=123456789, private=1)
 	Traceback (most recent call last):
 		File "<stdin>", line 1, in ?
 	PasteError: Invalid paste option: invalid_language

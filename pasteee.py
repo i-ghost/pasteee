@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-pastee module
+pasteee module
 Allows pasting to http://paste.ee
 http://github.com/i-ghost/pasteee
 """
@@ -41,7 +41,6 @@ class Paste(object):
 	[u'download', u'raw', u'link', u'id']
 	
 	Exception doctest:
-	>>> from pasteee import Paste
 	>>> paste = Paste(u"Foo bar\\nBaz", lang=123456789, private=1)
 	Traceback (most recent call last):
 		File "<stdin>", line 1, in ?

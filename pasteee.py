@@ -29,7 +29,7 @@ class Paste(object):
 	Options:
 	----
 	paste - str, paste data to send
-	private - bool, indicates if paste should be private or public. Default: 1
+	private - bool, indicates if paste should be private or public. Default: True
 	lang - str, indicates the syntax highlighting
 	key - str, API key. Default: "public"
 	desc - str, paste description. Default: ""
@@ -50,13 +50,13 @@ class Paste(object):
 		File "<stdin>", line 1, in ?
 	PasteError: Invalid paste option: invalid_language
 	"""
-	def __new__(cls, paste, private=1, lang=u"plain", key=u"public", desc=u"", expire=0):
+	def __new__(cls, paste, private=True, lang=u"plain", key=u"public", desc=u"", expire=0):
 		if not paste:
 			raise PasteError(u"No paste provided")
 		request = urllib2.Request("http://paste.ee/api",
 						data=urllib.urlencode({
 						'paste' : paste,
-						'private' : private,
+						'private' : bool(private),
 						'language' : lang,
 						'key' : key,
 						'description' : desc,

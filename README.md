@@ -12,10 +12,12 @@ pasteText = """Some text to paste
 Some more text
 Foo bar baz
 """
-paste = Paste(pasteText, private=1, desc="My first paste")
+paste = Paste(pasteText, private=False, desc="My first paste", views=15)
 ```
 
-The above will send a private paste with the contents of pasteText with the description "My first paste" using the anonymous API access.
+The above will send a public paste with the contents of pasteText with the description "My first paste" using the anonymous API access, and the paste will expire after fifteen views.
+
+Pastes are sent privately by default.
 
 See pasteee.py for more documentation.
 

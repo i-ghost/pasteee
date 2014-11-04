@@ -32,13 +32,15 @@ class Paste(object):
 
     Options:
     ----
-    paste - str, paste data to send
+    paste - str, paste data to send.
     private - bool, indicates if paste should be private or public. \
     Default: True
-    lang - str, indicates the syntax highlighting
-    key - str, API key. Default: "public"
+    lang - str, indicates the syntax highlighting.
+    key - str, API key. Default: "public".
     desc - str, paste description. Default: ""
-    expire - int, expiration time in minutes; OR str, expiration in 'n views'
+    expire - int, expiration time in minutes.
+    views - int, expire after this many views.
+    encrypted - bool, Doesn't seem to return anything meaningful.
 
     http://paste.ee/wiki/API:Basics
     ----
@@ -47,22 +49,30 @@ class Paste(object):
     >>> from pasteee import Paste
     >>> paste = Paste(u"Foo bar\\nBaz")
     >>> print paste.keys()
-    [u'download', u'raw', u'link', u'id']
+    [u'download', u'raw', u'link', u'id', u'min']
 
     Exception doctest:
     >>> paste = Paste(u"Foo bar\\nBaz", lang=123456789)
     Traceback (most recent call last):
         File "<stdin>", line 1, in ?
-    PasteError: Invalid paste option: invalid_language
+    PasteError: Invalid paste option: error_invalid_language
+
+    >>> paste = Paste(u"Foo bar\\nBaz", expire=15, views=10)
+    Traceback (most recent call last):
+        File "<stdin>", line 1, in ?
+    PasteError: Options 'expire' and 'views' are mutually exclusive
     """
     def __new__(cls, paste,
                 private=True, lang=u"plain",
                 key=u"public", desc=u"",
-                expire=0):
+                expire=0, views=0, encrypted=False):
         if not paste:
             raise PasteError(u"No paste provided")
+        if expire and views:
+            # API incorrectly returns success so we raise error locally
+            raise PasteError(u"Options 'expire' and 'views' are mutually exclusive")
         request = urllib2.Request(
-            "http://paste.ee/api",
+            "https://paste.ee/api",
             data=urllib.urlencode(
                 {
                     'paste': paste,
@@ -70,7 +80,9 @@ class Paste(object):
                     'language': lang,
                     'key': key,
                     'description': desc,
-                    'expire': expire
+                    'expire': expire,
+                    'encrypted': bool(encrypted),
+                    'format': "json"
                 }
             )
         )

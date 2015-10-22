@@ -1,6 +1,8 @@
 *pasteee*
 -------------------------
 
+[![Build Status](https://travis-ci.org/i-ghost/pasteee.svg)](https://travis-ci.org/i-ghost/pastee)
+
 A python module for posting pastes to http://paste.ee
 
 Example usage:

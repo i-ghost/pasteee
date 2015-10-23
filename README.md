@@ -1,7 +1,7 @@
 *pasteee*
 -------------------------
 
-[![Build Status](https://travis-ci.org/i-ghost/pasteee.svg)](https://travis-ci.org/i-ghost/pastee)
+[![Build Status](https://travis-ci.org/i-ghost/pasteee.svg)](https://travis-ci.org/i-ghost/pasteee)
 
 A python module for posting pastes to http://paste.ee
 
@@ -25,4 +25,4 @@ See pasteee.py for more documentation.
 
 Running pasteee.py from the command line will run the included doctests.
 
-Tested on Python 2.6
+Tested on Python 2.6, 2.7, 3.x

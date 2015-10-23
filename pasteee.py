@@ -7,8 +7,17 @@ Allows pasting to http://paste.ee
 http://github.com/i-ghost/pasteee
 """
 
-import urllib
-import urllib2
+# 2 <-> 3
+try:
+    from urllib.request import urlopen
+    from urllib.request import Request as urlrequest
+    from urllib.parse import urlencode
+    from urllib import error as urlerror
+except ImportError:
+    from urllib2 import urlopen
+    from urllib2 import Request as urlrequest
+    from urllib import urlencode
+    import urllib2 as urlerror
 import json
 
 
@@ -48,32 +57,32 @@ class Paste(object):
     Doctests:
     >>> from pasteee import Paste
     >>> paste = Paste(u"Foo bar\\nBaz")
-    >>> print paste.keys()
-    [u'download', u'raw', u'link', u'id', u'min']
+    >>> print(sorted(paste.keys())) # doctest: +ELLIPSIS
+    [...'download', ...'id', ...'link', ...'min', ...'raw']
 
     Exception doctest:
-    >>> paste = Paste(u"Foo bar\\nBaz", lang=123456789)
+    >>> paste = Paste(u"Foo bar\\nBaz", lang=123456789) # doctest: +IGNORE_EXCEPTION_DETAIL
     Traceback (most recent call last):
         File "<stdin>", line 1, in ?
     PasteError: Invalid paste option: error_invalid_language
 
-    >>> paste = Paste(u"Foo bar\\nBaz", expire=15, views=10)
+    >>> paste = Paste(u"Foo bar\\nBaz", expire=15, views=10) # doctest: +IGNORE_EXCEPTION_DETAIL
     Traceback (most recent call last):
         File "<stdin>", line 1, in ?
     PasteError: Options 'expire' and 'views' are mutually exclusive
     """
     def __new__(cls, paste,
-                private=True, lang=u"plain",
-                key=u"public", desc=u"",
+                private=True, lang="plain",
+                key="public", desc="",
                 expire=0, views=0, encrypted=False):
         if not paste:
-            raise PasteError(u"No paste provided")
+            raise PasteError("No paste provided")
         if expire and views:
             # API incorrectly returns success so we raise error locally
-            raise PasteError(u"Options 'expire' and 'views' are mutually exclusive")
-        request = urllib2.Request(
+            raise PasteError("Options 'expire' and 'views' are mutually exclusive")
+        request = urlrequest(
             "https://paste.ee/api",
-            data=urllib.urlencode(
+            data=urlencode(
                 {
                     'paste': paste,
                     'private': bool(private),
@@ -84,16 +93,16 @@ class Paste(object):
                     'encrypted': bool(encrypted),
                     'format': "json"
                 }
-            )
+            ).encode("utf-8")
         )
         try:
-            result = json.loads(urllib2.urlopen(request).read())
+            result = json.loads(urlopen(request).read().decode("utf-8"))
             return result["paste"]
-        except urllib2.HTTPError:
-            print(u"Couldn't send paste")
+        except urlerror.HTTPError:
+            print("Couldn't send paste")
             raise
         except KeyError:
-            raise PasteError(u"Invalid paste option: %s" % (result["error"]))
+            raise PasteError("Invalid paste option: %s" % (result["error"]))
 
 if __name__ == "__main__":
     import doctest

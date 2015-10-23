@@ -3,8 +3,8 @@
 
 """
 pasteee module
-Allows pasting to http://paste.ee
-http://github.com/i-ghost/pasteee
+Allows pasting to https://paste.ee
+https://github.com/i-ghost/pasteee
 """
 
 # 2 <-> 3
@@ -32,9 +32,10 @@ class Paste(object):
     Returns a dictionary containing the following on a successful paste:
     {
         "id":"foobar",
-        "link":"http://paste.ee/p/foobar",
-        "raw":"http://paste.ee/r/foobar",
-        "download":"http://paste.ee/d/foobar"
+        "link":"https://paste.ee/p/foobar",
+        "min":"https://min.paste.ee/foobar",
+        "raw":"https://paste.ee/r/foobar",
+        "download":"https://paste.ee/d/foobar"
     }
 
     Raises a PasteError on an unsuccessful paste.
@@ -47,7 +48,7 @@ class Paste(object):
     lang - str, indicates the syntax highlighting.
     key - str, API key. Default: "public".
     desc - str, paste description. Default: ""
-    expire - int, expiration time in minutes.
+    expire - int, expiration time in seconds.
     views - int, expire after this many views.
     encrypted - bool, Doesn't seem to return anything meaningful.
 
@@ -90,6 +91,7 @@ class Paste(object):
                     'key': key,
                     'description': desc,
                     'expire': expire,
+                    'views': views,
                     'encrypted': bool(encrypted),
                     'format': "json"
                 }

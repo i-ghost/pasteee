@@ -95,7 +95,8 @@ class Paste(object):
                     'encrypted': bool(encrypted),
                     'format': "json"
                 }
-            ).encode("utf-8")
+            ).encode("utf-8"),
+            headers={'User-Agent': 'Mozilla/5.0'}
         )
         try:
             result = json.loads(urlopen(request).read().decode("utf-8"))

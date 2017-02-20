@@ -59,7 +59,7 @@ class Paste(object):
     >>> from pasteee import Paste
     >>> paste = Paste(u"Foo bar\\nBaz")
     >>> print(sorted(paste.keys())) # doctest: +ELLIPSIS
-    [...'download', ...'id', ...'link', ...'min', ...'raw']
+    [...'download', ...'id', ...'link', ...'raw']
 
     Exception doctest:
     >>> paste = Paste(u"Foo bar\\nBaz", lang=123456789) # doctest: +IGNORE_EXCEPTION_DETAIL
